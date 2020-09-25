@@ -1,0 +1,3 @@
+rootProject.name = 'snoopy'
+include 'snoopy-base'
+

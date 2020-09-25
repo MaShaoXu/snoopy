@@ -1,0 +1,11 @@
+allprojects {
+    repositories {
+        maven {url 'https://maven.aliyun.com/repository/public/'}
+        mavenCentral()
+    }
+}
+
+subprojects {
+    group 'com.sam'
+    version '1.0-SNAPSHOT'
+}
