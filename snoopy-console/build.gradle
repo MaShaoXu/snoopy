@@ -1,0 +1,14 @@
+apply plugin: 'application'
+
+mainClassName = 'com.sam.console.Application'
+
+bootJar {
+    enabled = true
+    classifier = 'boot'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

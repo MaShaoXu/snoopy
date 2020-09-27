@@ -1,12 +1,66 @@
-allprojects {
+buildscript {
+    ext {
+        encoding = 'UTF-8'
+        javaVersion = JavaVersion.VERSION_1_8
+        lombokVersion = '1.18.8'
+        springBootVersion = '2.2.5.RELEASE'
+        springCloudVersion = 'Hoxton.SR3'
+        alibabaCloudVersion = '2.2.0.RELEASE'
+        PUBLIC = 'https://maven.aliyun.com/repository/public/'
+        GRADLE = 'https://maven.aliyun.com/repository/gradle-plugin/'
+    }
+
     repositories {
         mavenLocal()
-        maven {url 'https://maven.aliyun.com/repository/public/'}
+        maven { url GRADLE }
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    group 'com.sam'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenLocal()
+        maven {url PUBLIC}
+        jcenter()
         mavenCentral()
     }
 }
 
 subprojects {
-    group 'com.sam'
-    version '1.0-SNAPSHOT'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    jar {
+        enabled = true
+        manifest.attributes provider: 'gradle'
+    }
+
+    bootJar {
+        enabled = false
+    }
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    [compileJava, compileTestJava]*.options*.encoding = encoding
+
+    dependencies {
+        implementation "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${alibabaCloudVersion}"
+        }
+    }
 }

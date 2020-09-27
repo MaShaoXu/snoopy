@@ -1,0 +1,5 @@
+apply from: "$projectDir.path/version.gradle"
+
+dependencies {
+    implementation "com.google.guava:guava:${guavaVersion}"
+}

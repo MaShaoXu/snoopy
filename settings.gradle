@@ -1,3 +1,5 @@
 rootProject.name = 'snoopy'
-include 'snoopy-base'
+include 'snoopy-common'
+include 'snoopy-console'
+include 'snoopy-calculate-core'
 
