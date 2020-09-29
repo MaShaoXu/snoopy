@@ -5,7 +5,9 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.sam.console.model.NacosConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -18,23 +20,37 @@ public class NacosConfigController {
     private NacosConfigProperties properties;
     private ConfigService configService;
 
+    @Value("${spring.profiles.active:}")
+    private String active;
+
     @PostConstruct
     public void init() {
         try {
-            String name = properties.getName();
+            String prefix = properties.getPrefix();
             String fileExtension = properties.getFileExtension();
+            String dataId = prefix + "." + fileExtension;
+            if (StringUtils.isNotEmpty(active)) {
+                dataId = prefix + "-" + active + "." + fileExtension;
+            }
             String group = properties.getGroup();
+            int timeout = properties.getTimeout();
             configService = properties.configServiceInstance();
-            configService.addListener("snoopy.properties", group, new AbstractListener() {
+            configService.addListener(dataId, group, new AbstractListener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
                     System.out.println(configInfo);
                 }
             });
-            configService.removeListener("snoopy.properties", group, new AbstractListener() {
+            configService.removeListener(dataId, group, new AbstractListener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
                     System.err.println(configInfo);
+                }
+            });
+            configService.getConfigAndSignListener(dataId, group, timeout, new AbstractListener() {
+                @Override
+                public void receiveConfigInfo(String configInfo) {
+                    System.out.println(configInfo);
                 }
             });
         } catch (NacosException e) {
