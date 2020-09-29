@@ -3,9 +3,9 @@ buildscript {
         encoding = 'UTF-8'
         javaVersion = JavaVersion.VERSION_1_8
         lombokVersion = '1.18.8'
-        springBootVersion = '2.2.5.RELEASE'
-        springCloudVersion = 'Hoxton.SR3'
-        alibabaCloudVersion = '2.2.0.RELEASE'
+        springBootVersion = '2.1.0.RELEASE'
+        springCloudVersion = 'Greenwich.RELEASE'
+        alibabaCloudVersion = '2.1.0.RELEASE'
         PUBLIC = 'https://maven.aliyun.com/repository/public/'
         GRADLE = 'https://maven.aliyun.com/repository/gradle-plugin/'
     }
