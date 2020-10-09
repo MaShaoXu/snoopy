@@ -1,10 +1,12 @@
 package com.sam.hadoop.config;
 
+import com.sam.hadoop.service.HBaseDataService;
 import com.sam.hadoop.service.HBaseService;
 import com.sam.hadoop.service.HdfsSercice;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.log4j.BasicConfigurator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -13,6 +15,9 @@ import java.io.IOException;
 @org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties({HadoopProperties.class})
 public class HadoopConfig {
+
+    @Value("spring.profiles.active")
+    private String active;
 
     private static final String HBASE_QUORUM = "hbase.zookeeper.quorum";
     private static final String HBASE_PORT = "hbase.zookeeper.property.clientPort";
@@ -36,6 +41,11 @@ public class HadoopConfig {
     @Bean
     public HBaseService hBaseService(Configuration configuration) throws IOException {
         return new HBaseService(configuration);
+    }
+
+    @Bean
+    public HBaseDataService hBaseDataService(HBaseService hBaseService) {
+        return new HBaseDataService(active, hBaseService);
     }
 
     @Bean
