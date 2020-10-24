@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Snap {
+
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
     /**
