@@ -6,3 +6,5 @@ include 'snoopy-hadoop'
 include 'snoopy-service-orbit'
 
 project(':snoopy-hadoop').projectDir = new File(settingsDir, './snoopy-hadoop')
+include 'snoopy-oauth2'
+

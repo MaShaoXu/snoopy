@@ -1,0 +1,14 @@
+apply plugin: 'application'
+
+mainClassName = 'com.sam.console.Application'
+
+bootJar {
+    enabled = true
+    classifier = 'boot'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
+    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.1.0'
+}
