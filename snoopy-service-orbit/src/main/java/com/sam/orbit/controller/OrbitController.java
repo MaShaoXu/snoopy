@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 public class OrbitController {
 
-    @Autowired
+    @Autowired(required=false)
     private HBaseService hBaseService;
 
-    @Autowired
+    @Autowired(required=false)
     private HdfsSercice hdfsSercice;
 
     @GetMapping("/hello")

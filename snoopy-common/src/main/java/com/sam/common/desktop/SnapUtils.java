@@ -1,11 +1,11 @@
-package com.sam.common;
+package com.sam.common.desktop;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Snap {
+public class SnapUtils {
 
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
