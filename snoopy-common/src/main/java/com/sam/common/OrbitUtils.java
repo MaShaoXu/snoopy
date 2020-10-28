@@ -15,7 +15,8 @@ public class OrbitUtils {
     }
 
     public static void main(String[] args) {
-        Double exe = exe(86635);
+        int d = 82800 + 3364;
+        Double exe = exe(d);
         System.out.println(exe);
     }
 
