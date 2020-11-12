@@ -14,4 +14,13 @@ dependencies {
     compile ('org.apache.hadoop:hadoop-common:3.1.2'){
         exclude module: 'slf4j-log4j12'
     }
+
+    compile ('org.apache.spark:spark-streaming_2.11:2.4.7'){
+        exclude module: 'slf4j-log4j12'
+    }
+    compile ('org.apache.spark:spark-sql_2.11:2.4.7'){
+        exclude module: 'slf4j-log4j12'
+    }
+
+    testImplementation 'junit:junit'
 }
