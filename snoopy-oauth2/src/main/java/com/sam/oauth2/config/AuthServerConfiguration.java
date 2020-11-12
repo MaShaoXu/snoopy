@@ -24,17 +24,17 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
-        return converter;
-    }
+//    @Bean
+//    public TokenStore tokenStore() {
+//        return new JwtTokenStore(accessTokenConverter());
+//    }
+//
+//    @Bean
+//    public JwtAccessTokenConverter accessTokenConverter() {
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        converter.setSigningKey("123");
+//        return converter;
+//    }
 
     //"authorization_code", "password", "client_credentials", "implicit", "refresh_token"
     // 如果资源系统已经有了一套用户体系，每个用户也有了一定的权限，可以采用password模式
