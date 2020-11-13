@@ -10,28 +10,25 @@ import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SparkSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import scala.Tuple2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class JavaSparkTest {
+public class JavaSparkTest implements Serializable {
 
-    private transient JavaSparkContext jsc;
-
-    @Before
-    public void init() {
-        // local、yarn-client、yarn-standalone等
-        // 应用名
-        SparkConf conf = new SparkConf().setMaster("local").setAppName("Spark Test");
-        jsc = new JavaSparkContext(conf);
-    }
+    // local、yarn-client、yarn-standalone等
+    // 应用名
+    private static SparkConf conf = new SparkConf().setMaster("local").setAppName("Spark Test");
+    private static JavaSparkContext jsc = new JavaSparkContext(conf);
 
     @After
     public void destroy() {
@@ -61,8 +58,7 @@ public class JavaSparkTest {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
-    @Test
-    public void testFile() {
+    public static void main(String[] args) {
         //从HDFS文件转化 sc.textFile("hdfs://")
         //从本地文件转化 sc.textFile("file:/")
         String classFilePath = JavaSparkTest.class.getResource("/blsmy.txt").getPath();
@@ -90,20 +86,19 @@ public class JavaSparkTest {
         });
 
         //执行计算，执行action操作: 把结果打印在屏幕上
+        //count、collect、save等
         List<Tuple2<String, Integer>> result = count.collect();
         for (Tuple2<String, Integer> tuple : result) {
             System.out.println(tuple._1 + "\t" + tuple._2);
         }
+        System.out.println("RDD count " + count.count());
+        count.saveAsTextFile("C:\\Users\\Administrator\\Desktop\\orbit\\test.txt");
     }
 
     @Test
     public void sparkSQL() {
         String classFilePath = JavaSparkTest.class.getResource("/people.txt").getPath();
-        SparkSession spark = SparkSession
-                .builder()
-                .master("local")
-                .appName("Spark SQL")
-                .getOrCreate();
+        SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
         Dataset<Row> df = spark.read().json(classFilePath);
         // 显示表的内容 (前20条)
         df.show(2);
@@ -115,8 +110,9 @@ public class JavaSparkTest {
 //        df.filter(df.col("age").gt(21)).show();
 //        //分组统计
         df.groupBy("age").count().show();
+
+
         df.createOrReplaceTempView("peopleTmp");
-//        // SQL can be run over RDDs that have been registered as tables.
 //        Dataset<Row> teenagers = spark.sql("select name,age from peopleTmp where age > 13 and age <=19");
 //        teenagers.toJavaRDD().map(row -> "Name: " + row.getString(0)).collect().forEach(System.out::println);
 //        //parquet file
