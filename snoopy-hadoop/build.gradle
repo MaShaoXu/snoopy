@@ -21,6 +21,7 @@ dependencies {
     compile ('org.apache.spark:spark-sql_2.11:2.4.7'){
         exclude module: 'slf4j-log4j12'
     }
+    compile group: 'org.springframework.kafka', name: 'spring-kafka'
 
     testImplementation 'junit:junit'
 }
