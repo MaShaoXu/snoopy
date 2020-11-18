@@ -1,0 +1,4 @@
+dependencies {
+    compile group: 'com.beust', name: 'jcommander', version: '1.78'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.20'
+}
